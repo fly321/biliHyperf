@@ -34,7 +34,7 @@ class BilibiliServiceImpl implements BilibiliService
 
     public function getCookie(): string
     {
-        return file_get_contents($this->bilibili['cookie']);
+        return trim(file_get_contents($this->bilibili['cookie']));
     }
 
     public function setCookie()
