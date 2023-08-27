@@ -37,6 +37,7 @@ class BilibiliCommand extends HyperfCommand
         $this->line(" bilibili:clock_in running", "info", true);
         // 每天0点执行
         $this->timer->tick(86400000, function (){
+            $this->line("当前时间".date("Y-m-d H:i:s"));
             $this->bilibiliService->setCookie();
             $data = $this->bilibiliService->listOfFanCards();
             $this->line("获取粉丝勋章列表成功", "info", true);
