@@ -112,6 +112,7 @@ class BilibiliServiceImpl implements BilibiliService
 
     public function listOfFanCards(): array
     {
+        var_dump("是否进入listOfFanCards");
         try {
             $uid = $this->getUid($this->bilibili['userUrl']);
             $client = $this->clientFactory->create();
