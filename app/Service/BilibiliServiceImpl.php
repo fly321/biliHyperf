@@ -124,7 +124,11 @@ class BilibiliServiceImpl implements BilibiliService
             $data = json_decode($response->getBody()->getContents(), true);
             return $data["data"]["list"] ?? [];
         } catch (GuzzleException|\Throwable $e) {
-            var_dump("是否进入GuzzleException".$e->getMessage());
+            var_dump([
+                "error" => $e->getMessage(),
+                "line" => $e->getLine(),
+                "file" => $e->getFile(),
+            ]);
             $this->loggerFactory->make("bilibili")->error("获取粉丝勋章列表失败", [
                 "error" => $e->getMessage(),
             ]);
