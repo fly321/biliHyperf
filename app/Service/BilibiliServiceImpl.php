@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use GuzzleHttp\Exception\GuzzleException;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Guzzle\ClientFactory;
@@ -111,14 +112,21 @@ class BilibiliServiceImpl implements BilibiliService
 
     public function listOfFanCards(): array
     {
-        $uid = $this->getUid($this->bilibili['userUrl']);
-        $client = $this->clientFactory->create();
-        $response = $client->get(sprintf($this->bilibili['medal_wall_api'], $uid), [
-            "headers" => [
-                "cookie" => $this->cookie
-            ]
-        ]);
-        $data = json_decode($response->getBody()->getContents(), true);
-        return $data["data"]["list"] ?? [];
+        try {
+            $uid = $this->getUid($this->bilibili['userUrl']);
+            $client = $this->clientFactory->create();
+            $response = $client->get(sprintf($this->bilibili['medal_wall_api'], $uid), [
+                "headers" => [
+                    "cookie" => $this->cookie
+                ]
+            ]);
+            $data = json_decode($response->getBody()->getContents(), true);
+            return $data["data"]["list"] ?? [];
+        } catch (GuzzleException $e) {
+            $this->loggerFactory->make("bilibili")->error("获取粉丝勋章列表失败", [
+                "error" => $e->getMessage(),
+            ]);
+            return [];
+        }
     }
 }
