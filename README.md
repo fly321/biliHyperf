@@ -17,4 +17,4 @@ return array(
     "medal_wall_api" => "https://api.live.bilibili.com/xlive/web-ucenter/user/MedalWall?target_id=%s"
 );
 ```
-!(https://telegra.ph//file/e64d2f7a0be695a087f4a.png)[https://telegra.ph//file/e64d2f7a0be695a087f4a.png]
+![https://telegra.ph//file/e64d2f7a0be695a087f4a.png](https://telegra.ph//file/e64d2f7a0be695a087f4a.png)
