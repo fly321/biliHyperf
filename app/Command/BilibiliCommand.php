@@ -41,7 +41,7 @@ class BilibiliCommand extends HyperfCommand
             $this->bilibiliService->setCookie();
             $this->line("获取cookie成功：".$this->bilibiliService->getCookie(), "info", true);
             $data = $this->bilibiliService->listOfFanCards();
-            $this->line("获取粉丝勋章列表成功", "info", true);
+            $this->line("获取粉丝勋章列表成功:".json_encode($data), "info", true);
             $this->line("开始签到", "info", true);
             $jct = $this->bilibiliService->getJct();
             foreach ($data as $item) {
