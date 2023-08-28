@@ -39,7 +39,7 @@ class BilibiliCommand extends HyperfCommand
     {
         date_default_timezone_set('Asia/Shanghai');
         $this->line("bilibili:clock_in running...", "info", true);
-        \Co\run(function (){
+        \Swoole\Coroutine\run(function (){
             // 每天0点执行
             $this->timer->tick(86400000, function (){
                 $this->line("开始执行", "info", true);
