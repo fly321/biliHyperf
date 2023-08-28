@@ -61,7 +61,7 @@ class BilibiliServiceImpl implements BilibiliService
     public function getRoomId(string|int $uid): string
     {
         $url = sprintf($this->bilibili['info_api'], $uid);
-        $response = $this->client->get($url, [
+        $response = $this->clientFactory->create()->get($url, [
             "headers" => [
                 "cookie" => $this->cookie
             ]
