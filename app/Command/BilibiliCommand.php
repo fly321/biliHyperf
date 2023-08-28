@@ -10,6 +10,7 @@ use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Di\Annotation\Inject;
 use Psr\Container\ContainerInterface;
+use Swoole\Event;
 
 #[Command]
 class BilibiliCommand extends HyperfCommand
@@ -35,6 +36,7 @@ class BilibiliCommand extends HyperfCommand
     {
         date_default_timezone_set('Asia/Shanghai');
         $this->line(" bilibili:clock_in running", "info", true);
+
         // 每天0点执行
         $this->timer->tick(86400000, function (){
             $this->line("当前时间".date("Y-m-d H:i:s"));
@@ -53,6 +55,8 @@ class BilibiliCommand extends HyperfCommand
             }
         });
 
-
+        $this->line(" bilibili:clock_in end", "info", true);
+        // 保持进程
+        Event::wait();
     }
 }

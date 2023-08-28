@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
@@ -24,6 +25,11 @@ class BilibiliServiceImpl implements BilibiliService
     #[Inject]
     private LoggerFactory  $loggerFactory ;
 
+    private Client $client;
+    public function __construct()
+    {
+        $this->client = $this->clientFactory->create();
+    }
 
 
     public function getLists(): array
@@ -59,9 +65,8 @@ class BilibiliServiceImpl implements BilibiliService
 
     public function getRoomId(string|int $uid): string
     {
-        $client = $this->clientFactory->create();
         $url = sprintf($this->bilibili['info_api'], $uid);
-        $response = $client->get($url, [
+        $response = $this->client->get($url, [
             "headers" => [
                 "cookie" => $this->cookie
             ]
@@ -72,12 +77,11 @@ class BilibiliServiceImpl implements BilibiliService
 
     public function clockIn(string $room_id, string $jct): void
     {
-        $client = $this->clientFactory->create();
         $url = $this->bilibili['send_api'];
 
         $data = [
             "bubble" => "0",
-            "msg" => "打卡",
+            "msg" => $this->bilibili["msg"],
             "color" => "5566168",
             "mode" => "1",
             "room_type" => "0",
@@ -89,7 +93,7 @@ class BilibiliServiceImpl implements BilibiliService
             "csrf_token" => $jct
         ];
 
-        $result = $client->post($url, [
+        $result = $this->client->post($url, [
             "headers" => [
                 "cookie" => $this->cookie
             ],
