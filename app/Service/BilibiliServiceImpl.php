@@ -25,8 +25,6 @@ class BilibiliServiceImpl implements BilibiliService
     #[Inject]
     private LoggerFactory  $loggerFactory ;
 
-
-
     public function getLists(): array
     {
         // TODO: Implement getLists() method.
