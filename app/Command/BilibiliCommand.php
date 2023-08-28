@@ -42,10 +42,15 @@ class BilibiliCommand extends HyperfCommand
 
         date_default_timezone_set('Asia/Shanghai');
         $this->line("bilibili:clock_in running...", "info", true);
-
         $channel = new Channel(1);
         // 每天0点执行
-        $this->timer->tick(86400000, function (){
+        $this->timer->tick(86400000, $this->__logicHandle());
+        $channel->pop(0);
+    }
+
+
+    private function __logicHandle(): \Closure{
+        return function ($timer_id){
             $this->line("开始执行", "info", true);
             $this->line("当前时间".date("Y-m-d H:i:s"));
             $this->bilibiliService->setCookie();
@@ -61,9 +66,7 @@ class BilibiliCommand extends HyperfCommand
                 $this->bilibiliService->clockIn($room_id, $jct);
                 $this->line("当前时间".date("Y-m-d H:i:s").":"."{$item['target_name']} 签到成功", "info", true);
             }
-        });
-
-        $channel->pop(0);
-
+        };
     }
+
 }
