@@ -54,7 +54,6 @@ class BilibiliCommand extends HyperfCommand
                 $this->line("当前时间".date("Y-m-d H:i:s").":"."{$item['target_name']} 签到成功", "info", true);
             }
         });
-        // 保持进程
-        Event::wait();
+
     }
 }
