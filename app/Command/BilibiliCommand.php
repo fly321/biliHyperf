@@ -25,6 +25,8 @@ class BilibiliCommand extends HyperfCommand
     #[Inject]
     protected EventDispatcher $event;
 
+    private int $num = 0;
+
 
     public function __construct(protected ContainerInterface $container)
     {
@@ -42,6 +44,13 @@ class BilibiliCommand extends HyperfCommand
 
         date_default_timezone_set('Asia/Shanghai');
         $this->line("bilibili:clock_in running...", "info", true);
+
+        // q:判断是否是首次运行
+        if (!$this->num) {
+            $this->__logicHandle()();
+        }
+
+
         $channel = new Channel(1);
         // 每天0点执行
         $this->timer->tick(86400000, $this->__logicHandle());
@@ -50,6 +59,7 @@ class BilibiliCommand extends HyperfCommand
 
 
     private function __logicHandle(): \Closure{
+        $this->num++;
         return function ($timer_id){
             $this->line("开始执行", "info", true);
             $this->line("当前时间".date("Y-m-d H:i:s"));
