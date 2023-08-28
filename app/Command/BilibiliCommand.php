@@ -18,6 +18,9 @@ use Swoole\Event;
 class BilibiliCommand extends HyperfCommand
 {
 
+    /**
+     * @var BilibiliServiceImpl $bilibiliService
+     */
     #[Inject(BilibiliServiceImpl::class)]
     protected BilibiliService $bilibiliService;
     #[Inject]
@@ -70,6 +73,7 @@ class BilibiliCommand extends HyperfCommand
             $this->line("开始签到", "info", true);
             $jct = $this->bilibiliService->getJct();
             foreach ($data as $item) {
+                $this->bilibiliService->setData($item);
                 sleep(5);
                 $room_id = $this->bilibiliService->getRoomId($item["medal_info"]['target_id']);
                 // 获取房间号 ， 签到,写入日志

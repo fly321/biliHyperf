@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+
 interface BilibiliService
 {
     public function getLists(): array;
@@ -12,4 +13,5 @@ interface BilibiliService
     public function getRoomId(string|int $uid): string;
     public function clockIn(string $room_id, string $jct): void;
     public function listOfFanCards(): array;
+    public function useTag(int $medal_id, string $jct): void;
 }

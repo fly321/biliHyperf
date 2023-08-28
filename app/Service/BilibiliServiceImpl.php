@@ -25,6 +25,8 @@ class BilibiliServiceImpl implements BilibiliService
     #[Inject]
     private LoggerFactory  $loggerFactory ;
 
+    protected array $_data;
+
     public function getLists(): array
     {
         // TODO: Implement getLists() method.
@@ -68,8 +70,30 @@ class BilibiliServiceImpl implements BilibiliService
         return $data['data']['live_room']['roomid'] ?? "";
     }
 
+    private function gotoLink(string $link){
+        try {
+            $this->clientFactory->create()->get($link, [
+                "headers" => [
+                    "cookie" => $this->cookie
+                ]
+            ]);
+        } catch (GuzzleException|\Throwable $e) {
+            $this->loggerFactory->make("bilibili")->error("gotoLink", [
+                "error" => $e->getMessage(),
+            ]);
+        }
+    }
+
     public function clockIn(string $room_id, string $jct): void
     {
+        $this->gotoLink($this->_data['link']);
+        try {
+            if ($this->bilibili['is_tag']) {
+                $this->useTag($this->_data["medal_info"]["medal_id"], $jct);
+            }
+        } catch (\Throwable $e) {
+        }
+
         $url = $this->bilibili['send_api'];
 
         $data = [
@@ -131,5 +155,42 @@ class BilibiliServiceImpl implements BilibiliService
             ]);
             return [];
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->_data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData(array $data): void
+    {
+        $this->_data = $data;
+    }
+
+    public function useTag(int $medal_id, string $jct): void
+    {
+        $url = $this->bilibili['tag_api'];
+        $data = [
+            "medal_id" => $medal_id,
+            "visit_id" => "7dmon42ggv40",
+            "csrf_token" => $jct,
+            "csrf" => $jct
+        ];
+        $result = $this->clientFactory->create()->post($url, [
+            "headers" => [
+                "cookie" => $this->cookie
+            ],
+            "form_params" => $data
+        ]);
+
+        $this->loggerFactory->make("bilibili")->info("medal_id:$medal_id", [
+            "result" => $result->getBody()->getContents(),
+        ]);
     }
 }
