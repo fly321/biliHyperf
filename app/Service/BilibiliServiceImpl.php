@@ -25,11 +25,6 @@ class BilibiliServiceImpl implements BilibiliService
     #[Inject]
     private LoggerFactory  $loggerFactory ;
 
-    private Client $client;
-    public function __construct()
-    {
-        $this->client = $this->clientFactory->create();
-    }
 
 
     public function getLists(): array
@@ -93,7 +88,7 @@ class BilibiliServiceImpl implements BilibiliService
             "csrf_token" => $jct
         ];
 
-        $result = $this->client->post($url, [
+        $result = $this->clientFactory->create()->post($url, [
             "headers" => [
                 "cookie" => $this->cookie
             ],
