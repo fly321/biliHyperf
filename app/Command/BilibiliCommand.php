@@ -37,7 +37,7 @@ class BilibiliCommand extends HyperfCommand
         date_default_timezone_set('Asia/Shanghai');
         $this->line("bilibili:clock_in running...", "info", true);
         // 每天0点执行
-        \Swoole\Timer::tick(86400000, function (){
+        $this->timer->tick(86400000, function (){
             $this->line("开始执行", "info", true);
             $this->line("当前时间".date("Y-m-d H:i:s"));
             $this->bilibiliService->setCookie();
@@ -54,6 +54,7 @@ class BilibiliCommand extends HyperfCommand
                 $this->line("当前时间".date("Y-m-d H:i:s").":"."{$item['target_name']} 签到成功", "info", true);
             }
         });
-
+        // 保持进程
+//        Event::wait();
     }
 }
