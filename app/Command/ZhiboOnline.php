@@ -48,17 +48,21 @@ class ZhiboOnline extends HyperfCommand
         $data = $this->bilibiliService->generateMessage($room_id);
 
         $client = $this->clientFactory->create($data["host"]);
-        $client->push($data["msg"], WEBSOCKET_OPCODE_BINARY);
-        var_dump($data["host"]);
-        var_dump($client);
+        // string 转 二进制
+
+        $client->push(base64_decode($data["msg"]), WEBSOCKET_OPCODE_BINARY);
+//        var_dump($data["host"]);
+//        var_dump($client);
         // 循环接收数据
         while (true) {
             // 接收的是二进制数据
             $res = $client->recv(0);
-            var_dump($res);
-            exit();
+            if ($res === false) {
+                // 重连
+                $client->close();
+                return $this->logic($url);
+            }
         }
-        // client 掉线重连
 
     }
 }
