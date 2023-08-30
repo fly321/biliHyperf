@@ -20,6 +20,7 @@ class ZhiboOnline extends HyperfCommand
     protected BilibiliServiceImpl $bilibiliService;
     #[Inject]
     protected ClientFactory $clientFactory;
+    protected int $time = 0;
     public function __construct(protected ContainerInterface $container)
     {
         parent::__construct('zhibo:online');
@@ -51,13 +52,18 @@ class ZhiboOnline extends HyperfCommand
         // string 转 二进制
 
         $client->push(base64_decode($data["msg"]), WEBSOCKET_OPCODE_BINARY);
+        $this->time = time();
 //        var_dump($data["host"]);
 //        var_dump($client);
         // 循环接收数据
         while (true) {
             // 接收的是二进制数据
             $res = $client->recv(0);
-            if ($res === false) {
+            if ($this->time + 30 < time()) {
+                $client->push(base64_decode($data["heartbeat"]), WEBSOCKET_OPCODE_BINARY);
+                $this->time = time();
+            }
+            if (!$res) {
                 // 重连
                 $client->close();
                 return $this->logic($url);
@@ -67,8 +73,8 @@ class ZhiboOnline extends HyperfCommand
                 $pos = strpos($msg, "{");
                 if ($pos !== false) {
                     $msg = substr($msg, $pos);
-                    $msg = json_decode($msg, true);
-                    var_dump($msg);
+//                    $msg = json_decode($msg, true);
+                    $this->line("msg:". $msg);
                 }
 
             }
