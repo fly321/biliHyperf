@@ -56,7 +56,7 @@ class BilibiliCommand extends HyperfCommand
 
         $channel = new Channel(1);
         // 每天0点执行
-        $this->timer->tick(86400000, $this->__logicHandle());
+        $this->timer->tick(86400, $this->__logicHandle());
         $channel->pop(0);
     }
 
