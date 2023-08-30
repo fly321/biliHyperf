@@ -61,8 +61,19 @@ class ZhiboOnline extends HyperfCommand
                 // 重连
                 $client->close();
                 return $this->logic($url);
+            }else {
+                // 判断是否存在{
+                $msg = $res->getData();
+                $pos = strpos($msg, "{");
+                if ($pos !== false) {
+                    $msg = substr($msg, $pos);
+                    $msg = json_decode($msg, true);
+                    var_dump($msg);
+                }
+
             }
         }
 
     }
 }
+
