@@ -193,4 +193,53 @@ class BilibiliServiceImpl implements BilibiliService
             "result" => $result->getBody()->getContents(),
         ]);
     }
+
+    public function generateMessage(string $room_id): array
+    {
+        $base64 = $this->bilibili['zhibo']['base64'];
+        $str = base64_decode($base64, true);
+        $sp = strpos($str, "{");
+        $s1 = substr($str, $sp);
+        $kh = $this->getKeyAndHost($room_id);
+        // json
+        $json = json_decode($s1, true);
+        $json["roomid"] = (int)$room_id;
+        $json["uid"] = (int)$this->getUid($this->bilibili['userUrl']);
+        $json["buvid"] = $this->getBuvid();
+        $json["key"] = $this->getKeyAndHost($room_id)["key"];
+        // 从指定位置sp开始替换
+        $str = substr_replace($str, json_encode($json), $sp);
+        // base64
+        $base64 = base64_encode($str);
+        $this->loggerFactory->make("bilibili")->info("base64", [
+            "base64" => $base64,
+        ]);
+        return array(
+            "host" => "wss://".$kh["host"]."/sub",
+            "msg" => $base64
+        );
+
+    }
+
+    public function getBuvid(){
+        preg_match("/buvid3=(.*?);/", $this->cookie, $matches);
+        return $matches[1] ?? "";
+    }
+
+    public function getKeyAndHost(string $room_id){
+        $client = $this->clientFactory->create();
+        $response = $client->get(sprintf($this->bilibili['zhibo']['api'], $room_id), [
+            "headers" => [
+                "cookie" => $this->cookie
+            ]
+        ]);
+        $data = json_decode($response->getBody()->getContents(), true);
+        $hostArr = $data["data"]["host_list"];
+
+        return [
+            "key" => $data["data"]["token"],
+            "host" => $hostArr[0]["host"],
+        ];
+    }
+
 }
