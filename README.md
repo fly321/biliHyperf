@@ -18,3 +18,9 @@ return array(
 );
 ```
 ![https://telegra.ph//file/e64d2f7a0be695a087f4a.png](https://telegra.ph//file/e64d2f7a0be695a087f4a.png)
+
+## 直播间挂机
+### 用户url
+```shell
+php bin/hyperf.php zhibo:online https://space.bilibili.com/7706705/ &
+```
