@@ -56,6 +56,7 @@ class ZhiboOnline extends HyperfCommand
         // string 转 二进制
         $client->push(base64_decode($data["msg"]), WEBSOCKET_OPCODE_BINARY);
         $this->time = time();
+
 //        var_dump($data["host"]);
 //        var_dump($client);
         // 循环接收数据
@@ -72,6 +73,9 @@ class ZhiboOnline extends HyperfCommand
                 // 判断是否存在{
                 try {
                     $msg = $res->getData();
+                    // 接收到的binary数据 转换成string
+                    $msg = base64_decode($msg);
+
                     $pos = strpos($msg, "{");
                     if ($pos !== false) {
                         $msg = substr($msg, $pos);

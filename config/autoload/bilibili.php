@@ -9,7 +9,7 @@ return array(
     "is_tag" => true, // 是否自动带牌:true 自动带牌 false 不自动带牌
     "tag_api" => "https://api.live.bilibili.com/xlive/app-ucenter/v1/fansMedal/wear",
     "zhibo" => [
-        "base64" => "AAABMAAQAAEAAAAHAAAAAXsidWlkIjo1MjA4ODk2OSwicm9vbWlkIjo4MDM5NywicHJvdG92ZXIiOjMsImJ1dmlkIjoidGVzdDEiLCJwbGF0Zm9ybSI6IndlYiIsInR5cGUiOjIsImtleSI6ImZFbHVBX3FrN0xNZ0VNV29KUlZzWWp0T0ZSSDBMb3Awd3c1VGpkZUt6RTdzRGZfMHJJc2NZUjZ0MWpTYVVKX1VQeTZTcEpYTmtBM2pqeWhWSlRPM3pfZTRqdXgwRFNvZUd3Qlh4SVVVbXBXZHBGUjJ4VlNKbnExUDJ1aHp0MVgwVUdvLWRMZFZzakpWYTN0NlhoYzBJZz09In0=",
+        "base64" => "AAABMgAQAAEAAAAHAAAAAXsidWlkIjo1MjA4ODk2OSwicm9vbWlkIjo3MTQwOTU5LCJwcm90b3ZlciI6MywiYnV2aWQiOiJ0ZXN0aW5nIiwicGxhdGZvcm0iOiJ3ZWIiLCJ0eXBlIjoyLCJrZXkiOiJZRWZ4a3VLejNFRGJtdXAyaGNIRFhhbXZWNmx4cjREaUI1YjhaRFJPYnZJZVRJcDdkbVFpWmhEUmQ2anBxNFo2M0c0dXowV0xrRE8wc2ZkUnB1T0FkWGwtMGdBSm5OSkpzeS1nMVNOQ3hjRGFZc2xfOWFBR01lQ0RQcjlwOWZ5Wm4xNHBJSGd5NVU2ZXFxMnc5dXZpQlU0UyJ9",
         "api" => "https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuInfo?id=%s&type=0",
         "heartbeat" => "AAAAHwAQAAEAAAACAAAAAVtvYmplY3QgT2JqZWN0XQ=="
     ]
