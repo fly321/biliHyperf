@@ -46,6 +46,7 @@ class ZhiboOnline extends HyperfCommand
     }
 
     public function logic($url){
+        $this->line("进入直播间中....", "info", true);
         $this->bilibiliService->setCookie();
         $uid = $this->bilibiliService->getUid($url);
         $room_id = $this->bilibiliService->getRoomId($uid);
@@ -68,6 +69,7 @@ class ZhiboOnline extends HyperfCommand
             }
             if (!$res) {
                 // 重连
+                $this->line("重连中...", "info", true);
                 $client->close();
                 return $this->logic($url);
             }else {
