@@ -17,4 +17,5 @@ interface BilibiliService
     public function generateMessage(string $room_id): array;
     public function getBuvid();
     public function getKeyAndHost(string $room_id);
+    public function getb3();
 }

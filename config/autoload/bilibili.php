@@ -12,5 +12,6 @@ return array(
         "base64" => "AAABMgAQAAEAAAAHAAAAAXsidWlkIjo1MjA4ODk2OSwicm9vbWlkIjo3MTQwOTU5LCJwcm90b3ZlciI6MywiYnV2aWQiOiJ0ZXN0aW5nIiwicGxhdGZvcm0iOiJ3ZWIiLCJ0eXBlIjoyLCJrZXkiOiJZRWZ4a3VLejNFRGJtdXAyaGNIRFhhbXZWNmx4cjREaUI1YjhaRFJPYnZJZVRJcDdkbVFpWmhEUmQ2anBxNFo2M0c0dXowV0xrRE8wc2ZkUnB1T0FkWGwtMGdBSm5OSkpzeS1nMVNOQ3hjRGFZc2xfOWFBR01lQ0RQcjlwOWZ5Wm4xNHBJSGd5NVU2ZXFxMnc5dXZpQlU0UyJ9",
         "api" => "https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuInfo?id=%s&type=0",
         "heartbeat" => "AAAAHwAQAAEAAAACAAAAAVtvYmplY3QgT2JqZWN0XQ=="
-    ]
+    ],
+    "sapi" => "https://api.bilibili.com/x/frontend/finger/spi"
 );

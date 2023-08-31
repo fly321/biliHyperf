@@ -205,7 +205,8 @@ class BilibiliServiceImpl implements BilibiliService
         $json = json_decode($s1, true);
         $json["roomid"] = (int)$room_id;
         $json["uid"] = (int)$this->getUid($this->bilibili['userUrl']);
-        $json["buvid"] = $this->getBuvid();
+//        $json["buvid"] = $this->getBuvid();
+        $json["buvid"] = $this->getb3();
         $json["key"] = $this->getKeyAndHost($room_id)["key"];
         // 从指定位置sp开始替换
         $str = substr_replace($str, json_encode($json), $sp);
@@ -242,4 +243,16 @@ class BilibiliServiceImpl implements BilibiliService
         ];
     }
 
+    public function getb3()
+    {
+        // TODO: Implement getb3() method.
+        $clinet = $this->clientFactory->create();
+        $response = $clinet->get($this->bilibili['sapi'], [
+            "headers" => [
+                "cookie" => $this->cookie
+            ]
+        ]);
+        $data = json_decode($response->getBody()->getContents(), true);
+        return $data["data"]["b_3"];
+    }
 }
