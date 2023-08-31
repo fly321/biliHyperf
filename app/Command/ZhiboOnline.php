@@ -9,6 +9,7 @@ use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\WebSocketClient\Client;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Hyperf\WebSocketClient\ClientFactory;
@@ -62,6 +63,12 @@ class ZhiboOnline extends HyperfCommand
             while (true) {
                 // 接收的是二进制数据
                 $res = $client->recv();
+                $this->heartBeat($client);
+
+                if (false === $res){
+                    continue;
+                }
+
                 // 判断是否存在{
                 try {
                     $msg = $res->getData();
@@ -74,13 +81,7 @@ class ZhiboOnline extends HyperfCommand
                     }
                 } catch (\Throwable $e) {
 //                    var_dump($res);
-                    if ($this->time + 3 < time()) {
-                        $this->line("发送心跳包", "info", true);
-                        $client->push(base64_decode($this->bilibili["zhibo"]["heartbeat"]), WEBSOCKET_OPCODE_BINARY);
-                        $this->time = time();
-                    }
                 }
-
 
             }
         } catch (\Throwable $e) {
@@ -89,6 +90,15 @@ class ZhiboOnline extends HyperfCommand
             return $this->logic($url);
         }
 
+    }
+
+    private function heartBeat(Client $client)
+    {
+        if ($this->time + 3 < time()) {
+            $this->line("发送心跳包", "info", true);
+            $client->push(base64_decode($this->bilibili["zhibo"]["heartbeat"]), WEBSOCKET_OPCODE_BINARY);
+            $this->time = time();
+        }
     }
 }
 
