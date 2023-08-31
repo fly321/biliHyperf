@@ -67,7 +67,7 @@ class ZhiboOnline extends HyperfCommand
                 $this->time = time();
             }
             // 接收的是二进制数据
-            $res = $client->recv(0);
+            $res = $client->recv();
 
             if (!$res) {
                 // 重连
