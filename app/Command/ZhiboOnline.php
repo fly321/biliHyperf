@@ -64,7 +64,7 @@ class ZhiboOnline extends HyperfCommand
             // 接收的是二进制数据
             $res = $client->recv(0);
             if ($this->time + 30 < time()) {
-                $client->push(base64_decode($this->bilibili["heartbeat"]["heartbeat"]), WEBSOCKET_OPCODE_BINARY);
+                $client->push(base64_decode($this->bilibili["zhibo"]["heartbeat"]), WEBSOCKET_OPCODE_BINARY);
                 $this->time = time();
             }
             if (!$res) {
