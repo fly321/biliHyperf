@@ -77,12 +77,11 @@ class ZhiboOnline extends HyperfCommand
                     $msg = base64_decode($msg);
 
                     $pos = strpos($msg, "{");
-                    if ($pos !== false) {
+                    $danmu = strpos($msg, "DANMU_MSG");
+                    if ($pos !== false && $danmu !== false) {
                         $msg = substr($msg, $pos);
-                        $this->line("msg:" . $msg);
-                    }else{
-                        $this->line("msg:" . $msg);
                     }
+                    $this->line("msg:" . $msg, "info", true);
                 } catch (\Throwable $e) {
 //                    var_dump($res);
                 }
