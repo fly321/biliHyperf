@@ -7,6 +7,7 @@ namespace App\Command;
 use App\Service\BilibiliServiceImpl;
 use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Command\Annotation\Command;
+use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,6 +22,8 @@ class ZhiboOnline extends HyperfCommand
     #[Inject]
     protected ClientFactory $clientFactory;
     protected int $time = 0;
+    #[Value("bilibili")]
+    protected array $bilibili;
     public function __construct(protected ContainerInterface $container)
     {
         parent::__construct('zhibo:online');
@@ -60,7 +63,7 @@ class ZhiboOnline extends HyperfCommand
             // 接收的是二进制数据
             $res = $client->recv(0);
             if ($this->time + 30 < time()) {
-                $client->push(base64_decode($data["heartbeat"]), WEBSOCKET_OPCODE_BINARY);
+                $client->push(base64_decode($this->bilibili["heartbeat"]), WEBSOCKET_OPCODE_BINARY);
                 $this->time = time();
             }
             if (!$res) {
