@@ -61,7 +61,7 @@ class ZhiboOnline extends HyperfCommand
 //        var_dump($client);
         // 循环接收数据
         while (true) {
-            if ($this->time + 10 < time()) {
+            if ($this->time + 3 < time()) {
                 $this->line("发送心跳包", "info", true);
                 $client->push(base64_decode($this->bilibili["zhibo"]["heartbeat"]), WEBSOCKET_OPCODE_BINARY);
                 $this->time = time();
