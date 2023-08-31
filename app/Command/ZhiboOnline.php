@@ -52,7 +52,7 @@ class ZhiboOnline extends HyperfCommand
         $room_id = $this->bilibiliService->getRoomId($uid);
         $data = $this->bilibiliService->generateMessage($room_id);
 
-        $client = $this->clientFactory->create($data["host"]);
+        $client = $this->clientFactory->create($data["host"], false);
         // string 转 二进制
 
         $client->push(base64_decode($data["msg"]), WEBSOCKET_OPCODE_BINARY);
