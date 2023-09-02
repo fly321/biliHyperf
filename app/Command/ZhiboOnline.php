@@ -64,6 +64,7 @@ class ZhiboOnline extends HyperfCommand
             while (true) {
                 // 接收的是二进制数据
                 $res = $client->recv();
+
                 $this->heartBeat($client);
 
                 if (false === $res){

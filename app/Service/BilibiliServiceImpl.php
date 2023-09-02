@@ -18,6 +18,7 @@ class BilibiliServiceImpl implements BilibiliService
     private string $key = "bilbili";
     #[Value("bilibili")]
     private array $bilibili;
+    protected int $port = 2243;
 
     #[Inject]
     private ClientFactory $clientFactory;
@@ -215,10 +216,12 @@ class BilibiliServiceImpl implements BilibiliService
         $this->loggerFactory->make("bilibili")->info("base64", [
             "base64" => $base64,
         ]);
-        return array(
+        $data =array(
             "host" => "wss://".$kh["host"]."/sub",
             "msg" => $base64
         );
+        var_dump($data);
+        return $data;
 
     }
 
