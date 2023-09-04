@@ -53,9 +53,8 @@ class BilibiliCommand extends HyperfCommand
             $this->__logicHandle()();
         }
 
-
 //        $channel = new Channel(1);
-        $this->timer->tick(3600*8, $this->__logicHandle());
+        $this->timer->tick(3600*6, $this->__logicHandle());
 //        $channel->pop(0);
         Event::wait();
     }
@@ -63,6 +62,7 @@ class BilibiliCommand extends HyperfCommand
 
     private function __logicHandle(): \Closure{
         $this->num++;
+        $this->line("第{$this->num}次运行", "info", true);
         return function (){
             $this->line("开始执行", "info", true);
             $this->line("当前时间".date("Y-m-d H:i:s"));
