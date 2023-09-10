@@ -55,7 +55,7 @@ class BilibiliCommand extends HyperfCommand
         }
 
 //        $channel = new Channel(1);
-        $this->timer->tick(120, $this->__logicHandle());
+        $this->timer->tick(1800, $this->__logicHandle());
 //        $channel->pop(0);
         Event::wait();
     }
