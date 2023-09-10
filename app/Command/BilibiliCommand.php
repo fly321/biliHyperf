@@ -62,9 +62,9 @@ class BilibiliCommand extends HyperfCommand
 
 
     private function __logicHandle(): \Closure{
-        $this->num++;
-        $this->line("第{$this->num}次运行", "info", true);
         return function (){
+            $this->num++;
+            $this->line("第{$this->num}次运行", "info", true);
             $this->line("开始执行", "info", true);
             $this->line("当前时间".date("Y-m-d H:i:s"));
             $this->bilibiliService->setCookie();
