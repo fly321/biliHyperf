@@ -153,6 +153,8 @@ class BilibiliServiceImpl implements BilibiliService
             ]);
             $this->loggerFactory->make("bilibili")->error("获取粉丝勋章列表失败", [
                 "error" => $e->getMessage(),
+                "line" => $e->getLine(),
+                "file" => $e->getFile(),
             ]);
             return [];
         }
