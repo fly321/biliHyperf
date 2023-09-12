@@ -50,13 +50,13 @@ class BilibiliCommand extends HyperfCommand
         $this->line("bilibili:clock_in running...", "info", true);
 
         // q:判断是否是首次运行
-        if (!$this->num) {
+//        if (!$this->num) {
             $this->__logicHandle()();
-        }
+//        }
 
-        $channel = new Channel(1);
+        /*$channel = new Channel(1);
         $this->timer->tick(600, $this->__logicHandle());
-        $channel->pop(0);
+        $channel->pop(0);*/
 //        Event::wait();
     }
 
