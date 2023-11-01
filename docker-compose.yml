@@ -1,0 +1,18 @@
+version: "3"
+networks:
+  flyserver:
+    driver: bridge
+services:
+  bili_sign:
+    image: hyperf/hyperf:8.1-alpine-v3.15-swoole-v5
+    container_name: bili_sign
+    volumes:
+      - ./:/data/projects
+    working_dir: /data/projects
+    networks:
+      - flyserver
+    entrypoint:
+      - /bin/sh
+    privileged: true
+    user: root
+    tty: true
