@@ -11,8 +11,10 @@ services:
     working_dir: /data/projects
     networks:
       - flyserver
-    entrypoint:
-      - /bin/sh
     privileged: true
     user: root
     tty: true
+    command:
+    - /bin/sh
+    - -c
+    - php bin/hyperf.php bilibili:clock_in
