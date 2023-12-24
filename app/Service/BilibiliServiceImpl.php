@@ -260,4 +260,16 @@ class BilibiliServiceImpl implements BilibiliService
         $data = json_decode($response->getBody()->getContents(), true);
         return $data["data"]["b_3"];
     }
+
+    /**
+     * 发送消息xizhi
+     * @param string $msg
+     * @return void
+     * @throws GuzzleException
+     */
+    public function sendMessageToWechat(string $msg) : void
+    {
+        $client = $this->clientFactory->create();
+        $client->get($this->bilibili["xz"]."?title=".urlencode($msg));
+    }
 }
