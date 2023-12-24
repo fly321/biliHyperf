@@ -13,5 +13,6 @@ return array(
         "api" => "https://api.live.bilibili.com/xlive/web-room/v1/index/getDanmuInfo?id=%s&type=0",
         "heartbeat" => "AAAAHwAQAAEAAAACAAAAAVtvYmplY3QgT2JqZWN0XQ=="
     ],
-    "sapi" => "https://api.bilibili.com/x/frontend/finger/spi"
+    "sapi" => "https://api.bilibili.com/x/frontend/finger/spi",
+    "xz" => \Hyperf\Support\env("XZ_URL")
 );

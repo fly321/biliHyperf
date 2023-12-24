@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Service\BilibiliService;
 use App\Service\BilibiliServiceImpl;
+use GuzzleHttp\Exception\GuzzleException;
 use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Command\Annotation\Command;
 use Hyperf\Di\Annotation\Inject;
@@ -30,6 +31,46 @@ class BilibiliCommand extends HyperfCommand
 
     private int $num = 0;
 
+    public const RoomMap = array(
+        698438232 => 22673512,
+        17992194 => 5573692,
+        1802392 => 9395707,
+        7706705 => 80397,
+        1104048496 => 22642754,
+        15641218 => 573893,
+        52522 => 850221,
+        1359949418 => 23224539,
+        11431931 => 675014,
+        1652111117 => 24008276,
+        1501380958 => 22746343,
+        477342747 => 21672022,
+        1011797664 => 24697117,
+        1694610556 => 25971921,
+        698029620 => 22696653,
+        16510117 => 623698,
+        471460273 => 22195814,
+        1219196749 => 23303212,
+        455899334 => 22163937,
+        1734978373 => 22696954,
+        551527845 => 22810269,
+        631070414 => 22389206,
+        1950658 => 41682,
+        2110567804 => 23794191,
+        51030552 => 1603600,
+        43272050 => 21646457,
+        3821157 => 21692711,
+        283886865 => 9234980,
+        11073 => 48743,
+        75937648 => 21725187,
+        14633696 => 8781662,
+        4176573 => 870691,
+        1856528671 => 23256987,
+        745493 => 8792912,
+        479633069 => 21677969,
+        899804 => 411318,
+        617459493 => 22384516
+    );
+
 
     public function __construct(protected ContainerInterface $container)
     {
@@ -51,7 +92,7 @@ class BilibiliCommand extends HyperfCommand
 
         // q:判断是否是首次运行
 //        if (!$this->num) {
-            $this->__logicHandle()();
+        $this->__logicHandle()();
 //        }
 
         /*$channel = new Channel(1);
@@ -61,25 +102,37 @@ class BilibiliCommand extends HyperfCommand
     }
 
 
-    private function __logicHandle(): \Closure{
-        return function (){
+    private function __logicHandle(): \Closure
+    {
+        return function () {
             $this->num++;
             $this->line("第{$this->num}次运行", "info", true);
             $this->line("开始执行", "info", true);
-            $this->line("当前时间".date("Y-m-d H:i:s"));
+            $this->line("当前时间" . date("Y-m-d H:i:s"));
             $this->bilibiliService->setCookie();
-            $this->line("获取cookie成功：".$this->bilibiliService->getCookie(), "info", true);
+            $this->line("获取cookie成功：" . $this->bilibiliService->getCookie(), "info", true);
             $data = $this->bilibiliService->listOfFanCards();
-            $this->line("获取粉丝勋章列表成功:".json_encode($data), "info", true);
+            $this->line("获取粉丝勋章列表成功:" . json_encode($data), "info", true);
             $this->line("开始签到", "info", true);
             $jct = $this->bilibiliService->getJct();
+            $this->line("jct:" . $jct);
             foreach ($data as $item) {
                 $this->bilibiliService->setData($item);
                 sleep(5);
-                $room_id = $this->bilibiliService->getRoomId($item["medal_info"]['target_id']);
+                try {
+                    $room_id = (string)static::RoomMap[$item["medal_info"]['target_id']];
+                } catch (\Exception $e) {
+                    $room_id = $this->bilibiliService->getRoomId($item["medal_info"]['target_id']);
+                }
+                $this->line("当前房间号" . $room_id);
                 // 获取房间号 ， 签到,写入日志
                 $this->bilibiliService->clockIn($room_id, $jct);
-                $this->line("当前时间".date("Y-m-d H:i:s").":"."{$item['target_name']} 签到成功", "info", true);
+                $msg = "当前时间[" . date("Y-m-d H:i:s") . "]:" . "{$item['target_name']} 【{$room_id}】 签到成功";
+                $this->line($msg, "info", true);
+                try {
+                    $this->bilibiliService->sendMessageToWechat($msg);
+                } catch (GuzzleException $e) {
+                }
             }
         };
     }
