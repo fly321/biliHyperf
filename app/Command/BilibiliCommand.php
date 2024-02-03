@@ -130,11 +130,25 @@ class BilibiliCommand extends HyperfCommand
                 $msg = "当前时间[" . date("Y-m-d H:i:s") . "]:" . "{$item['target_name']} 【{$room_id}】 签到成功";
                 $this->line($msg, "info", true);
                 try {
-                    $this->bilibiliService->sendMessageToWechat($msg);
+//                    $this->bilibiliService->sendMessageToWechat($msg);
+                    $this->sendMsg($item, $room_id);
                 } catch (GuzzleException $e) {
                 }
             }
         };
+    }
+
+    private function sendMsg($item, $room_id) {
+        $time = date("Y-m-d H:i:s");
+        $avatar = $item['target_icon'];
+        $markdown = <<<MARKDOWN
+## 签到结果
+> 用户名 : {$item['target_name']}
+> 签到房间 : {$room_id}
+> 签到时间 : {$time}
+> 签到结果 : 成功
+MARKDOWN;
+        $this->bilibiliService->sendMessageToWechat($markdown);
     }
 
 }

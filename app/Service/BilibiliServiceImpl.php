@@ -24,7 +24,7 @@ class BilibiliServiceImpl implements BilibiliService
     private ClientFactory $clientFactory;
 
     #[Inject]
-    private LoggerFactory  $loggerFactory ;
+    private LoggerFactory $loggerFactory;
 
     protected array $_data;
 
@@ -71,7 +71,8 @@ class BilibiliServiceImpl implements BilibiliService
         return $data['data']['live_room']['roomid'] ?? "";
     }
 
-    private function gotoLink(string $link){
+    private function gotoLink(string $link)
+    {
         try {
             $this->clientFactory->create()->get($link, [
                 "headers" => [
@@ -117,7 +118,6 @@ class BilibiliServiceImpl implements BilibiliService
             ],
             "form_params" => $data
         ]);
-
 
 
         try {
@@ -218,8 +218,8 @@ class BilibiliServiceImpl implements BilibiliService
         $this->loggerFactory->make("bilibili")->info("base64", [
             "base64" => $base64,
         ]);
-        $data =array(
-            "host" => "wss://".$kh["host"]."/sub",
+        $data = array(
+            "host" => "wss://" . $kh["host"] . "/sub",
             "msg" => $base64
         );
         var_dump($data);
@@ -227,12 +227,14 @@ class BilibiliServiceImpl implements BilibiliService
 
     }
 
-    public function getBuvid(){
+    public function getBuvid()
+    {
         preg_match("/buvid3=(.*?);/", $this->cookie, $matches);
         return $matches[1] ?? "";
     }
 
-    public function getKeyAndHost(string $room_id){
+    public function getKeyAndHost(string $room_id)
+    {
         $client = $this->clientFactory->create();
         $response = $client->get(sprintf($this->bilibili['zhibo']['api'], $room_id), [
             "headers" => [
@@ -267,9 +269,20 @@ class BilibiliServiceImpl implements BilibiliService
      * @return void
      * @throws GuzzleException
      */
-    public function sendMessageToWechat(string $msg) : void
+    public function sendMessageToWechat(string $msg): void
     {
         $client = $this->clientFactory->create();
-        $client->get($this->bilibili["xz"]."?title=".urlencode($msg));
+        $client->post($this->bilibili["wechat_hook"], [
+            "headers" => [
+                "cookie" => $this->cookie
+            ],
+            "json" => [
+                "msgtype" => "markdown",
+                "markdown" => [
+                    "content" => $msg
+                ],
+                "mentioned_list" => ["all"]
+            ]
+        ]);
     }
 }
