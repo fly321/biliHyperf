@@ -141,14 +141,15 @@ class BilibiliCommand extends HyperfCommand
     private function sendMsg($item, $room_id) {
         $time = date("Y-m-d H:i:s");
         $avatar = $item['target_icon'];
-        $markdown = <<<MARKDOWN
+/*        $markdown = <<<MARKDOWN
 ## 签到结果
 > 用户名 : {$item['target_name']}
 > 签到房间 : {$room_id}
 > 签到时间 : {$time}
 > 签到结果 : 成功
-MARKDOWN;
-        $this->bilibiliService->sendMessageToWechat($markdown);
+MARKDOWN;*/
+        $msg = "用户名 : {$item['target_name']}\n签到房间 : {$room_id}\n签到时间 : {$time}\n签到结果 : 成功\n\n";
+        $this->bilibiliService->sendWechatNews("签到消息", $msg, $item["link"] ?? "", $avatar);
     }
 
 }

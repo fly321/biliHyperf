@@ -285,4 +285,26 @@ class BilibiliServiceImpl implements BilibiliService
             ]
         ]);
     }
+
+    public function sendWechatNews($title, $desc, $link, $picurl) {
+        $client = $this->clientFactory->create();
+        $client->post($this->bilibili["wechat_hook"], [
+            "headers" => [
+                "cookie" => $this->cookie
+            ],
+            "json" => [
+                "msgtype" => "news",
+                "news" => [
+                    "articles" => [
+                        [
+                            "title" => $title,
+                            "description" => $desc,
+                            "url" => $link,
+                            "picurl" => $picurl,
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+    }
 }

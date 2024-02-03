@@ -18,4 +18,6 @@ interface BilibiliService
     public function getBuvid();
     public function getKeyAndHost(string $room_id);
     public function getb3();
+
+    public function sendWechatNews($title, $desc, $link, $picurl);
 }
