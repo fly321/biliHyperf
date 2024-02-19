@@ -128,10 +128,10 @@ class BilibiliCommand extends HyperfCommand
                 $this->line("当前房间号" . $room_id);
                 // 获取房间号 ， 签到,写入日志
                 $this->bilibiliService->clockIn($room_id, $jct);
-                $msg = "当前时间[" . date("Y-m-d H:i:s") . "]:" . "{$item['target_name']} 【{$room_id}】 签到成功";
-                $this->line($msg, "info", true);
+//                $msg = "当前时间[" . date("Y-m-d H:i:s") . "]:" . "{$item['target_name']} 【{$room_id}】 签到成功";
+//                $this->line($msg, "info", true);
                 try {
-                    $this->bilibiliService->sendMessageToWechat($msg);
+                    $this->bilibiliService->sendMsg($item, $room_id);
                 } catch (GuzzleException|Exception $e) {
                     $this->line("发送失败:" . $e->getMessage(), "error", true);
                 }
