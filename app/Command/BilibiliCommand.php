@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Service\BilibiliService;
 use App\Service\BilibiliServiceImpl;
+use Exception;
 use GuzzleHttp\Exception\GuzzleException;
 use Hyperf\Command\Command as HyperfCommand;
 use Hyperf\Command\Annotation\Command;
@@ -131,7 +132,8 @@ class BilibiliCommand extends HyperfCommand
                 $this->line($msg, "info", true);
                 try {
                     $this->bilibiliService->sendMessageToWechat($msg);
-                } catch (GuzzleException $e) {
+                } catch (GuzzleException|Exception $e) {
+                    $this->line("发送失败:" . $e->getMessage(), "error", true);
                 }
             }
         };

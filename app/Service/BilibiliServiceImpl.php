@@ -270,6 +270,17 @@ class BilibiliServiceImpl implements BilibiliService
     public function sendMessageToWechat(string $msg) : void
     {
         $client = $this->clientFactory->create();
-        $client->get($this->bilibili["xz"]."?title=".urlencode($msg));
+        $client->post($this->bilibili["wechat_hook"], [
+            "headers" => [
+                "cookie" => $this->cookie
+            ],
+            "json" => [
+                "msgtype" => "markdown",
+                "markdown" => [
+                    "content" => $msg
+                ],
+                "mentioned_list" => ["all"]
+            ]
+        ]);
     }
 }
