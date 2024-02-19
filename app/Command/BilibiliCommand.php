@@ -131,7 +131,7 @@ class BilibiliCommand extends HyperfCommand
 //                $msg = "当前时间[" . date("Y-m-d H:i:s") . "]:" . "{$item['target_name']} 【{$room_id}】 签到成功";
 //                $this->line($msg, "info", true);
                 try {
-                    $this->bilibiliService->sendMsg($item, $room_id);
+                    $this->sendMsg($item, $room_id);
                 } catch (GuzzleException|Exception $e) {
                     $this->line("发送失败:" . $e->getMessage(), "error", true);
                 }
