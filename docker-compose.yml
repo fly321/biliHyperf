@@ -19,3 +19,7 @@ services:
       - LANGUAGE=en_US.UTF-8
       - LC_ALL=en_US.UTF-8
     tty: true
+    command:
+    - /bin/sh
+    - -c
+    - php bin/hyperf.php bilibili:clock_in

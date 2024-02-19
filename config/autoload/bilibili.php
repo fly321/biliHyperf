@@ -14,5 +14,6 @@ return array(
         "heartbeat" => "AAAAHwAQAAEAAAACAAAAAVtvYmplY3QgT2JqZWN0XQ=="
     ],
     "sapi" => "https://api.bilibili.com/x/frontend/finger/spi",
-    "xz" => \Hyperf\Support\env("XZ_URL")
+    "xz" => \Hyperf\Support\env("XZ_URL"),
+    "wechat_hook" => \Hyperf\Support\env("WECHAT_ROBOT_URL")
 );
